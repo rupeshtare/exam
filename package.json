@@ -18,8 +18,10 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.6",
     "nodemon": "^1.19.3",
+    "react-hot-loader": "^4.12.14",
     "webpack": "^4.41.0",
-    "webpack-dev-middleware": "^3.7.2"
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0"
   },
   "dependencies": {
     "express": "^4.17.1",

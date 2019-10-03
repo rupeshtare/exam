@@ -1,12 +1,22 @@
 import path from "path";
+import webpack from "webpack";
 
 export default {
     mode: "development",
     devtool: "eval-source-map",
-    entry: path.join(__dirname, "client/index.js"),
+    entry: [
+        "webpack-hot-middleware/client",
+        path.join(__dirname, "client/index.js"),
+    ],
     output: {
-        path: "/"
+        path: "/",
+        publicPath: "/"
     },
+    plugins: [
+        new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.HotModuleReplacementPlugin()
+    ],
     module: {
         rules: [
             {
