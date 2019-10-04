@@ -1,7 +1,11 @@
 import React from "react";
 import { render } from "react-dom";
-import App from "./components/App";
 
-render(<App />, document.getElementById("app"));
+import Routes from './Routes';
 
-if (module && module.hot) module.hot.accept()
+render(<Routes />, document.getElementById("app"));
+
+
+if (module && module.hot) {
+    module.hot.accept()
+}
