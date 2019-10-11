@@ -8,11 +8,13 @@ import SignupPage from "./components/signup/SignupPage";
 class Routes extends React.Component {
     render() {
         return (
-            <BrowserRouter>         
-                <Route path="/" component={App}></Route>
-                <Route exact path="/" component={Greetings}></Route>
-                <Route path="/signup" component={SignupPage}></Route>
-            </BrowserRouter>
+            <div className="container">
+                <BrowserRouter>         
+                    <Route path="/" component={App}></Route>
+                    <Route exact path="/" component={Greetings}></Route>
+                    <Route path="/signup" component={SignupPage}></Route>
+                </BrowserRouter>
+            </div>
         );
     }
 }
