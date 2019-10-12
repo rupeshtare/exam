@@ -1,7 +1,8 @@
 import React from "react";
 import timezones from "../../data/timezones";
 import map from "lodash/map";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import classnames from "classnames";
 
 class SignupFrom extends React.Component {
     constructor(props) {
@@ -12,6 +13,8 @@ class SignupFrom extends React.Component {
             password: "",
             passwordConfirmaion: "",
             timezone: "",
+            errors: {},
+            isLoading: false
         }
 
         this.onChange = this.onChange.bind(this);
@@ -23,11 +26,16 @@ class SignupFrom extends React.Component {
     }
 
     onSubmit(e) {
+        this.setState({ errors: {}, isLoading: true });
         e.preventDefault();
-        this.props.userSignupRequest(this.state);
+        this.props.userSignupRequest(this.state).then(
+            ({ response }) => console.log(response),
+            ({ response }) => this.setState({ errors: response.data, isLoading: false })
+        );
     }
 
     render() {
+        const { errors } = this.state;
         const options = map(timezones, (val, key) => 
             <option value={key} key={key}>{val}</option>
         )
@@ -41,8 +49,9 @@ class SignupFrom extends React.Component {
                         onChange={this.onChange}
                         type="text"
                         name="username"
-                        className="form-control">
+                        className={classnames("form-control", { "is-invalid": errors.username })}>
                     </input>
+                    { errors.username && <div className="invalid-feedback">{errors.username}</div> }
                 </div>
                 <div className="form-group">
                     <label className="control-label">Email</label>
@@ -51,8 +60,9 @@ class SignupFrom extends React.Component {
                         onChange={this.onChange}
                         type="text"
                         name="email"
-                        className="form-control">
+                        className={classnames("form-control", { "is-invalid": errors.email })}>
                     </input>
+                    { errors.email && <div className="invalid-feedback">{errors.email}</div> }
                 </div>
                 <div className="form-group">
                     <label className="control-label">Password</label>
@@ -61,8 +71,9 @@ class SignupFrom extends React.Component {
                         onChange={this.onChange}
                         type="password"
                         name="password"
-                        className="form-control">
+                        className={classnames("form-control", { "is-invalid": errors.password })}>
                     </input>
+                    { errors.password && <div className="invalid-feedback">{errors.password}</div> }
                 </div>
                 <div className="form-group">
                     <label className="control-label">Password Confirmation</label>
@@ -71,8 +82,9 @@ class SignupFrom extends React.Component {
                         onChange={this.onChange}
                         type="password"
                         name="passwordConfirmaion"
-                        className="form-control">
+                        className={classnames("form-control", { "is-invalid": errors.passwordConfirmaion })}>
                     </input>
+                    { errors.passwordConfirmaion && <div className="invalid-feedback">{errors.passwordConfirmaion}</div> }
                 </div>
                 <div className="form-group">
                     <label className="control-label">Timezone</label>
@@ -80,13 +92,14 @@ class SignupFrom extends React.Component {
                         value={this.state.timezone}
                         onChange={this.onChange}
                         name="timezone"
-                        className="form-control">
+                        className={classnames("form-control", { "is-invalid": errors.timezone })}>
                         <option value="" disabled>Choose your timezone</option>
                         {options}
                     </select>
+                    { errors.timezone && <div className="invalid-feedback">{errors.timezone}</div> }
                 </div>
                 <div className="form-group">
-                    <button className="btn btn-primary btn-lg">Sign Up</button>
+                    <button disabled={this.state.isLoading}  className="btn btn-primary btn-lg">Sign Up</button>
                 </div>
             </form>
         )
