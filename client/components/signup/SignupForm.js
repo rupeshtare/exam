@@ -42,10 +42,15 @@ class SignupFrom extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
+        console.log(this.props);
         if (this.isValid()) {
             this.setState({ errors: {}, isLoading: true });
             this.props.userSignupRequest(this.state).then(
                 ({ response }) => {
+                    this.props.addFlashMessage({
+                        type: "success",
+                        text: "You signed up successfully. Welcome!"
+                    })
                     this.props.history.push("/");
                 },
                 ({ response }) => this.setState({ errors: response.data, isLoading: false })
@@ -110,7 +115,8 @@ class SignupFrom extends React.Component {
 }
 
 SignupFrom.propTypes = {
-    userSignupRequest: PropTypes.func.isRequired
+    userSignupRequest: PropTypes.func.isRequired,
+    addFlashMessage: PropTypes.func.isRequired
 }
 
 export default withRouter(SignupFrom);
