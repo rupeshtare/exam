@@ -42,7 +42,6 @@ class SignupFrom extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        console.log(this.props);
         if (this.isValid()) {
             this.setState({ errors: {}, isLoading: true });
             this.props.userSignupRequest(this.state).then(
