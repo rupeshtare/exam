@@ -6,13 +6,16 @@ import webpack from "webpack";
 import webpackMiddleware from "webpack-dev-middleware";
 import webpackHotMiddelware from "webpack-hot-middleware";
 import webpackConfig from "../webpack.config.dev";
+
 import users from "./route/users";
+import auth from "./route/auth";
 
 const app = express();
 
 app.use(bodyParser.json());
 
 app.use("/api/users", users);
+app.use("/api/auth", auth);
 
 const compiler = webpack(webpackConfig);
 
