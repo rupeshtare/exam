@@ -20,6 +20,9 @@ class NavigationBar extends React.Component {
                         <li>
                             <Link to="/signup" className="nav-link">Sign Up</Link>
                         </li>
+                        <li>
+                            <Link to="/login" className="nav-link">Login</Link>
+                        </li>
                     </ul>
                 </div>
             </nav>
