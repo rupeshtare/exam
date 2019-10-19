@@ -1,9 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { withRouter }  from "react-router-dom";
+
 import TextFieldGroup from "../common/TextFieldGroup";
 import validateInput from "../../../server/shared/validations/login";
-import { connect } from "react-redux";
-import { login } from "../../actions/login"
-import PropTypes from "prop-types";
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -78,4 +78,4 @@ LoginForm.propTypes = {
     login: PropTypes.func.isRequired
 }
 
-export default connect(null, { login })(LoginForm);
+export default withRouter(LoginForm);
