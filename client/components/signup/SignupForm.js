@@ -19,11 +19,13 @@ class SignupFrom extends React.Component {
             passwordConfirmaion: "",
             timezone: "",
             errors: {},
-            isLoading: false
+            isLoading: false,
+            invalid: false
         }
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.checkUserExists = this.checkUserExists.bind(this);
     }
 
     onChange(e) {
@@ -38,6 +40,26 @@ class SignupFrom extends React.Component {
         }
 
         return isValid;
+    }
+
+    checkUserExists(e) {
+        const field = e.target.name;
+        const val = e.target.value;
+        if(val !== ""){
+            this.props.isUserExists(val).then(res => {
+                const errors = this.state.errors;
+                let invalid;
+                if(res.data.user){
+                    invalid = true;
+                   errors[field] = "There is user with such "+ field; 
+                }
+                else{
+                    invalid = false;
+                    errors[field] = "";
+                }
+                this.setState({ errors, invalid });
+            });
+        }
     }
 
     onSubmit(e) {
@@ -69,6 +91,7 @@ class SignupFrom extends React.Component {
                     error={ errors.username}
                     label="Username"
                     onChange={this.onChange}
+                    checkUserExists={this.checkUserExists}
                     value={this.state.username}
                     field="username"
                 ></TextFieldGroup>
@@ -76,6 +99,7 @@ class SignupFrom extends React.Component {
                     error={ errors.email}
                     label="Email"
                     onChange={this.onChange}
+                    checkUserExists={this.checkUserExists}
                     value={this.state.email}
                     field="email"
                 ></TextFieldGroup>
@@ -106,7 +130,7 @@ class SignupFrom extends React.Component {
                     { errors.timezone && <div className="invalid-feedback">{errors.timezone}</div> }
                 </div>
                 <div className="form-group">
-                    <button disabled={this.state.isLoading}  className="btn btn-primary btn-lg">Sign Up</button>
+                    <button disabled={this.state.isLoading || this.state.invalid}  className="btn btn-primary btn-lg">Sign Up</button>
                 </div>
             </form>
         )
@@ -115,7 +139,8 @@ class SignupFrom extends React.Component {
 
 SignupFrom.propTypes = {
     userSignupRequest: PropTypes.func.isRequired,
-    addFlashMessage: PropTypes.func.isRequired
+    addFlashMessage: PropTypes.func.isRequired,
+    isUserExists: PropTypes.func.isRequired
 }
 
 export default withRouter(SignupFrom);
