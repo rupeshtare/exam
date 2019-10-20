@@ -6,6 +6,7 @@ import webpack from "webpack";
 import webpackMiddleware from "webpack-dev-middleware";
 import webpackHotMiddelware from "webpack-hot-middleware";
 import webpackConfig from "../webpack.config.dev";
+import authenticate from "./middlewares/authenticate";
 
 import users from "./route/users";
 import auth from "./route/auth";
