@@ -6,6 +6,7 @@ export default {
     devtool: "eval-source-map",
     entry: [
         "webpack-hot-middleware/client",
+        path.join(__dirname, "client/custom.scss"),
         path.join(__dirname, "client/index.js"),
     ],
     output: {
@@ -23,6 +24,17 @@ export default {
                 test: /\.js$/,
                 include: path.join(__dirname, "client"),
                 loaders: [ "babel-loader" ],
+            },
+            {
+                test: /\.(sa|sc|c)ss$/,
+                loaders: [
+                    // Creates `style` nodes from JS strings
+                    'style-loader',
+                    // Translates CSS into CommonJS
+                    'css-loader',
+                    // Compiles Sass to CSS
+                    'sass-loader',
+                ]
             }
         ]
     },
