@@ -8,7 +8,7 @@ export default function(ComposedComponent) {
 
     class Authenticate extends React.Component {
 
-        componentWillMount() {
+        UNSAFE_componentWillMount() {
             if(!this.props.isAuthenticated) {
                 this.props.addFlashMessage({
                     type: "error",
@@ -18,7 +18,7 @@ export default function(ComposedComponent) {
             }
         }
 
-        componentWillUpdate(nextProps) {
+        UNSAFE_componentWillUpdate(nextProps) {
             if(!nextProps.isAuthenticated) {
                 this.props.history.push("/login");
             }

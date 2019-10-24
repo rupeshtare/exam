@@ -10,6 +10,7 @@ import authenticate from "./middlewares/authenticate";
 
 import users from "./route/users";
 import auth from "./route/auth";
+import questions from "./route/questions";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 
 app.use("/api/users", users);
 app.use("/api/auth", auth);
+app.use("/api/questions", authenticate, questions);
 
 const compiler = webpack(webpackConfig);
 
