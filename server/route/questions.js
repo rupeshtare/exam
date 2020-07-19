@@ -29,4 +29,15 @@ router.post("/", (req, res) => {
     }
 });
 
+router.get("/", (req, res) => {
+    Question.query({})
+    .fetchAll()
+    .then(
+        questions => res.json({ questions })
+    )
+    .catch(
+        err => res.status(500).json({ error: err })
+    );
+});
+
 export default router;

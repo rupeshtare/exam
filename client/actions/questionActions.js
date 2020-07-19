@@ -5,3 +5,9 @@ export function questionSaveRequest(questionData) {
         return axios.post("/api/questions", questionData);
     }
 }
+
+export function getQuestions() {
+    return dispatch => {
+        return axios.get("/api/questions");
+    }
+}
