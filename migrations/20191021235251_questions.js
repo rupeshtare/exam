@@ -9,6 +9,8 @@ exports.up = function(knex) {
         table.json("correct_answer").notNullable();
         table.string("type").notNullable();
         table.string("difficulty_level").notNullable();
+        table.integer("created_by").unsigned().references("id").inTable("users");
+        table.integer("updated_by").unsigned().references("id").inTable("users");
         table.timestamps();
     });  
 };

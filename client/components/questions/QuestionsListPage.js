@@ -8,11 +8,7 @@ class QuestionsListPage extends React.Component {
     render() {
         const { getQuestions } = this.props;
         return (
-            <div className="row">
-                <div className="col-md-8 offset-md-2">
-                    <QuestionsListForm getQuestions={getQuestions} ></QuestionsListForm>
-                </div>
-            </div>
+            <QuestionsListForm getQuestions={getQuestions} ></QuestionsListForm>
         );
     }
 }

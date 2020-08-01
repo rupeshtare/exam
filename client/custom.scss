@@ -1,6 +1,17 @@
 // Override default variables before the import
-$gray-100: #41ff41;
-$gray-100: #ff9d41;
+$gray-100: #66ff66;
+
+$font-family-base: "Century Gothic", "Apple Gothic", AppleGothic, "URW Gothic L", "Avant Garde", Futura, sans-serif;
 
 // Import Bootstrap and its default variables
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+.navbar-light {
+    .navbar-nav .nav-link {
+        color: $white;
+    }
+
+    .navbar-brand {
+        color: $white;
+    }
+}

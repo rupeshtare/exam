@@ -9,10 +9,8 @@ class QuestionsPage extends React.Component {
     render() {
         const { questionSaveRequest, addFlashMessage } = this.props;
         return (
-            <div className="row">
-                <div className="col-md-8 offset-md-2">
-                    <QuestionsForm questionSaveRequest={questionSaveRequest} addFlashMessage={addFlashMessage}></QuestionsForm>
-                </div>
+            <div className="col-md-8 offset-md-2">
+                <QuestionsForm questionSaveRequest={questionSaveRequest} addFlashMessage={addFlashMessage}></QuestionsForm>
             </div>
         );
     }
