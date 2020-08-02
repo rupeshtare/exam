@@ -1,5 +1,6 @@
 // Override default variables before the import
 $gray-100: #66ff66;
+$primary: #66ff66;
 
 $font-family-base: "Century Gothic", "Apple Gothic", AppleGothic, "URW Gothic L", "Avant Garde", Futura, sans-serif;
 
@@ -14,4 +15,9 @@ $font-family-base: "Century Gothic", "Apple Gothic", AppleGothic, "URW Gothic L"
     .navbar-brand {
         color: $white;
     }
+}
+
+.card {
+    margin-bottom: 10px;
+    border-color: $primary;
 }

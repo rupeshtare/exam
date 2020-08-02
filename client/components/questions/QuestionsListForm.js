@@ -10,16 +10,37 @@ class QuestionsListForm extends React.Component {
         super(props);
         this.state = {
             questions: [],
+            pagination: {},
             isLoading: false,
             tableColumns: ["question", "option1", "option2", "option3", "option4", "correct_answer", "difficulty_level"]
         }
 
+        this.previousData = this.previousData.bind(this);
+        this.nextData = this.nextData.bind(this);
         this.getQuestions();
     }
 
     getQuestions() {
         this.props.getQuestions().then(res => {
-            this.setState({ questions: res.data.questions });
+            const { questions, pagination } = res.data;
+            this.setState({ questions, pagination });
+        });
+    }
+
+
+    previousData() {
+        const { page, pageSize } = this.state.pagination;
+        this.props.getQuestions({ page: page - 1, pageSize: pageSize }).then(res => {
+            const { questions, pagination } = res.data;
+            this.setState({ questions, pagination });
+        });
+    }
+
+    nextData() {
+        const { page, pageSize } = this.state.pagination;
+        this.props.getQuestions({ page: page + 1, pageSize: pageSize }).then(res => {
+            const { questions, pagination } = res.data;
+            this.setState({ questions, pagination });
         });
     }
 
@@ -32,6 +53,9 @@ class QuestionsListForm extends React.Component {
                     tableHeaderClass="thead-dark"
                     tableData={this.state.questions}
                     tableColumns={this.state.tableColumns}
+                    pagination={this.state.pagination}
+                    previousData={this.previousData}
+                    nextData={this.nextData}
                 ></Table>
             </div>
         )

@@ -4,7 +4,8 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { createStore, applyMiddleware, compose } from "redux";
 import jwt from "jsonwebtoken";
-
+import "bootstrap";
+import "jquery";
 import Routes from './Routes';
 import rootReducer from "./rootReducer";
 import setAuthorizationToken from "./utils/setAuthorizationToken";

@@ -74,7 +74,7 @@ class QuestionsForm extends React.Component {
             <form onSubmit={this.onSubmit}>
                 <h5>New Question</h5>
                 <TextareaFieldGroup
-                    field="identifier"
+                    field="question"
                     label="Question"
                     value={question}
                     error={errors.question}
@@ -127,7 +127,7 @@ class QuestionsForm extends React.Component {
                     multiple={false}
                 />
                 <div className="form-group">
-                    <button disabled={this.state.isLoading || this.state.invalid} className="btn btn-primary btn-lg">Save</button>
+                    <button disabled={this.state.isLoading || this.state.invalid} className="btn btn-outline-primary">Save</button>
                 </div>
             </form>
         )
