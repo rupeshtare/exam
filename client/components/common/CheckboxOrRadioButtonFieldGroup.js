@@ -13,7 +13,7 @@ class CheckboxOrRadioButtonFieldGroup extends React.Component {
     render() {
         const { examQuestion, questionNo, onChange } = this.props
         const { id, question, option1, option2, option3, option4, type } = examQuestion;
-        const fieldType = type == "S" ? "checkbox" : "radio"
+        const fieldType = type == "S" ? "radio" : "checkbox"
 
         return (
             <div className="card">

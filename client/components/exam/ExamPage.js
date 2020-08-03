@@ -8,7 +8,7 @@ import { getQuestions } from "../../actions/questionActions";
 
 class ExamPage extends React.Component {
     render() {
-        const { getQuestions } = this.props;
+        const { examSubmitRequest, addFlashMessage, getQuestions } = this.props;
         return (
             <ExamForm examSubmitRequest={examSubmitRequest} addFlashMessage={addFlashMessage} getQuestions={getQuestions} ></ExamForm>
         );
