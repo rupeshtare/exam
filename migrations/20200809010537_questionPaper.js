@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-    return knex.schema.createTable("exams", function(table){
+    return knex.schema.createTable("question_papers", function(table){
         table.increments();
         table.json("questions").notNullable();
         table.integer("user").unsigned().references("id").inTable("users");
@@ -8,5 +8,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTable("exams");
+  return knex.schema.dropTable("question_papers");
 };

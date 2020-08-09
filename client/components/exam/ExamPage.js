@@ -2,18 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 
 import ExamForm from "./ExamForm";
-import { examSubmitRequest } from "../../actions/examActions";
+import { getExamRsults, getQuestionPapers } from "../../actions/examActions";
 import { addFlashMessage } from "../../actions/flashMessages";
-import { getQuestions } from "../../actions/questionActions";
 
 class ExamPage extends React.Component {
     render() {
-        const { examSubmitRequest, addFlashMessage, getQuestions } = this.props;
+        const { getExamRsults, getQuestionPapers, addFlashMessage } = this.props;
         return (
-            <ExamForm examSubmitRequest={examSubmitRequest} addFlashMessage={addFlashMessage} getQuestions={getQuestions} ></ExamForm>
+            <ExamForm getExamRsults={getExamRsults} getQuestionPapers={getQuestionPapers} addFlashMessage={addFlashMessage}></ExamForm>
         );
     }
 }
 
 
-export default connect(null, { examSubmitRequest, addFlashMessage, getQuestions })(ExamPage);
+export default connect(null, { getExamRsults, getQuestionPapers, addFlashMessage })(ExamPage);
