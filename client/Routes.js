@@ -21,11 +21,11 @@ class Routes extends React.Component {
                     <Route exact path="/" component={Greetings}></Route>
                     <Route path="/signup" component={SignupPage}></Route>
                     <Route path="/login" component={LoginPage}></Route>
-                    <Route path="/questions" component={requireAuth(QuestionsPage)}></Route>
-                    <Route path="/list" component={requireAuth(QuestionsListPage)}></Route>
-                    <Route exact path="/exam" component={requireAuth(ExamPage)}></Route>
-                    <Route exact path="/exam/:paper" component={requireAuth(QuestionPaperPage)}></Route>
-                    <Route exact path="/paper" component={requireAuth(QuestionPaperPage)}></Route>
+                    <Route path="/questions" component={requireAuth(QuestionsPage, "T")}></Route>
+                    <Route path="/list" component={requireAuth(QuestionsListPage, "T")}></Route>
+                    <Route exact path="/exam" component={requireAuth(ExamPage, "S")}></Route>
+                    <Route exact path="/exam/:paper" component={requireAuth(QuestionPaperPage, "S")}></Route>
+                    <Route exact path="/paper" component={requireAuth(QuestionPaperPage, "S")}></Route>
                 </BrowserRouter>
             </div>
         );
