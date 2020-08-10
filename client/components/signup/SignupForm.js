@@ -86,7 +86,7 @@ class SignupFrom extends React.Component {
         )
         return (
             <form onSubmit={this.onSubmit}>
-                <h1>Join our Exam!</h1>
+                <h1>Join our Online Exam!</h1>
                 <TextFieldGroup
                     error={ errors.username}
                     label="Username"

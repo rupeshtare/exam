@@ -11,7 +11,7 @@ class SignupPage extends React.Component {
         const { userSignupRequest, addFlashMessage, isUserExists } = this.props;
         return (
             <div className="row justify-content-md-center">
-                <div className="col col-md-4">
+                <div className="col col-md-5">
                     <SignupForm userSignupRequest={userSignupRequest} addFlashMessage={addFlashMessage} isUserExists={isUserExists} />
                 </div>
             </div>

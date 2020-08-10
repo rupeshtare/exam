@@ -17,7 +17,7 @@ export default (req, res, next) => {
             } else {
                 User.query({
                     where: { id: decoded.id },
-                    select: [ "id", "username", "email" ]
+                    select: [ "id", "username", "email", "role" ]
                 }).fetch().then(user => {
                     req.currentUser = user;
                     next();
