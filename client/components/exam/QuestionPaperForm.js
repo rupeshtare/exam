@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import classnames from "classnames";
+import { isEmpty } from "lodash";
 import { withRouter } from "react-router-dom";
 
 import CheckboxOrRadioButtonFieldGroup from "../common/CheckboxOrRadioButtonFieldGroup";
@@ -14,16 +16,29 @@ class QuestionPaperForm extends React.Component {
             invalid: false,
             answers: {},
             paper: this.props.match.params.paper,
+            results: {}
         }
 
-        this.getQuestionPaper();
         this.onSubmit = this.onSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
     }
 
+    componentDidMount() {
+        this.getAnswerSheet();
+        this.getQuestionPaper();
+    }
+
+    getAnswerSheet() {
+        this.props.getAnswerSheet(this.state.paper).then(res => {
+            let { answers, results } = res.data;
+            this.setState({ answers, results });
+        });
+    }
+
     getQuestionPaper() {
         this.props.getQuestionPaper(this.state.paper).then(res => {
-            this.setState({ questions: res.data.questions });
+            let { questions } = res.data;
+            this.setState({ questions });
         });
     }
 
@@ -74,7 +89,7 @@ class QuestionPaperForm extends React.Component {
     }
 
     render() {
-        const { questions, isLoading, invalid } = this.state;
+        const { questions, results, answers, isLoading, invalid } = this.state;
 
         return (
             <form onSubmit={this.onSubmit}>
@@ -85,11 +100,13 @@ class QuestionPaperForm extends React.Component {
                             key={index}
                             questionNo={index + 1}
                             examQuestion={question}
+                            result={results[question.id]}
+                            answer={answers[question.id]}
                             onChange={this.onChange}>
                         </CheckboxOrRadioButtonFieldGroup>
                     )
                 }
-                <div className="form-group">
+                <div className={classnames("form-group", { "invisible": !isEmpty(this.state.answers) })}>
                     <button disabled={isLoading || invalid} className="btn btn-outline-primary">Submit</button>
                 </div>
             </form>
@@ -101,6 +118,7 @@ QuestionPaperForm.propTypes = {
     examSubmitRequest: PropTypes.func.isRequired,
     addFlashMessage: PropTypes.func.isRequired,
     getQuestionPaper: PropTypes.func.isRequired,
+    getAnswerSheet: PropTypes.func.isRequired
 }
 
 export default withRouter(QuestionPaperForm);

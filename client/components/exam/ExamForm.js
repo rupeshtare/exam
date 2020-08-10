@@ -55,7 +55,7 @@ class ExamForm extends React.Component {
                                     <div className="card-body">
                                         <h5 className="card-title">Question Paper # {result.question_paper}</h5>
                                         <p className="card-text">Chemistry</p>
-                                        <b className="card-text">Marks: {result.total_marks}</b>
+                                        <Link to={`/exam/${result.question_paper}`}>Marks: {result.total_marks}</Link>
                                     </div>
                                 </div>
                             </div>

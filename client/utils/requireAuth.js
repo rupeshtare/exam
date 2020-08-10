@@ -8,19 +8,15 @@ export default function (ComposedComponent, role) {
 
     class Authenticate extends React.Component {
 
-        constructor(props) {
-            super(props);
-            this.checkAuthenticated();
-        }
-
-        checkAuthenticated() {
+        UNSAFE_componentWillMount() {
             if (!this.props.isAuthenticated) {
                 this.props.addFlashMessage({
                     type: "error",
                     text: "You need to login to access this page."
                 });
                 this.props.history.push("/");
-            } else if (role !== this.props.userRole) {
+            } 
+            else if (role !== this.props.userRole) {
                 this.props.addFlashMessage({
                     type: "error",
                     text: "You dont have permission to access this page."
@@ -29,7 +25,7 @@ export default function (ComposedComponent, role) {
             }
         }
 
-        componentDidUpdate(nextProps) {
+        UNSAFE_componentWillUpdate(nextProps) {
             if (!nextProps.isAuthenticated) {
                 this.props.history.push("/login");
             }

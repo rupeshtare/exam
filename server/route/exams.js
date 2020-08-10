@@ -11,6 +11,7 @@ import { map } from "lodash";
 
 let router = express.Router();
 
+// Save Exam
 router.post("/", (req, res) => {
     // const { errors, isValid } = validateInput(req.body);
     const isValid = true
@@ -45,6 +46,7 @@ router.post("/", (req, res) => {
     }
 });
 
+// Get Exam Results
 router.get("/results", (req, res) => {
     const user = req.currentUser.id;
 
@@ -65,6 +67,7 @@ router.get("/results", (req, res) => {
         );
 });
 
+// Get All Question Papers
 router.get("/questionPapers", (req, res) => {
     const user = req.currentUser.id;
 
@@ -81,6 +84,7 @@ router.get("/questionPapers", (req, res) => {
         );
 });
 
+// Get Question Paper
 router.get("/questionPaper/:identifier", (req, res) => {
     const { identifier } = req.params;
 
@@ -103,12 +107,11 @@ router.get("/questionPaper/:identifier", (req, res) => {
                 })
 
         }).catch((error) => {
-            console.log(error);
             res.json({ error });
         })
 })
 
-
+// Create Question Paper
 router.post("/questionPaper", (req, res) => {
     const user = req.currentUser.id;
 
@@ -128,6 +131,33 @@ router.post("/questionPaper", (req, res) => {
 
             res.json({ questions });
         }).catch((error) => {
+            res.json({ error });
+        })
+})
+
+
+// Get Answer Sheet of a given Paper
+router.get("/answerSheet/:identifier", (req, res) => {
+    const { identifier } = req.params;
+    const user = req.currentUser.id;
+
+    AnswerSheet
+        .query({
+            select: ["question", "answer", "result"],
+            where: { question_paper: identifier, user: user }
+        })
+        .fetchAll()
+        .then(answerSheet => {
+            let answers = {}, results = {};
+
+            answerSheet.forEach((v) => {
+                answers[v.get("question")] = JSON.parse(v.get("answer"));
+                results[v.get("question")] = v.get("result");
+            })
+
+            res.json({ answers, results });
+        }).catch((error) => {
+            console.log(error);
             res.json({ error });
         })
 })
