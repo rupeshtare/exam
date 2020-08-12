@@ -8,7 +8,8 @@ import LoginPage from "./components/login/LoginPage";
 import QuestionsPage from "./components/questions/QuestionsPage";
 import QuestionsListPage from "./components/questions/QuestionsListPage";
 import ExamPage from "./components/exam/ExamPage";
-import QuestionPaperPage from "./components/exam/QuestionPaperPage"
+import QuestionPaperPage from "./components/exam/QuestionPaperPage";
+import SetQuestionPaperPage from "./components/questions/SetQuestionPaperPage";
 
 import requireAuth from "./utils/requireAuth";
 
@@ -16,7 +17,7 @@ class Routes extends React.Component {
     render() {
         return (
             <div className="container">
-                <BrowserRouter>         
+                <BrowserRouter>
                     <Route path="/" component={App}></Route>
                     <Route exact path="/" component={Greetings}></Route>
                     <Route path="/signup" component={SignupPage}></Route>
@@ -25,7 +26,7 @@ class Routes extends React.Component {
                     <Route path="/list" component={requireAuth(QuestionsListPage, "T")}></Route>
                     <Route exact path="/exam" component={requireAuth(ExamPage, "S")}></Route>
                     <Route exact path="/exam/:paper" component={requireAuth(QuestionPaperPage, "S")}></Route>
-                    <Route exact path="/paper" component={requireAuth(QuestionPaperPage, "S")}></Route>
+                    <Route exact path="/questionPaper" component={requireAuth(SetQuestionPaperPage, "T")}></Route>
                 </BrowserRouter>
             </div>
         );

@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import { logout } from "../actions/authActions";
 import CustomLink from "../utils/customLink";
 
+import Cart from "./cart/cart";
+
 class NavigationBar extends React.Component {
 
     logout(e) {
@@ -16,13 +18,16 @@ class NavigationBar extends React.Component {
 
         const guestLinks = (
             <ul className="navbar-nav">
-                <li><CustomLink to="/signup" className="nav-link">Sign Up</CustomLink></li>
-                <li><CustomLink to="/login" className="nav-link">Login</CustomLink></li>
+                <li><CustomLink to="/signup" className="nav-link" aria-expanded="false">Sign Up</CustomLink></li>
+                <li><CustomLink to="/login" className="nav-link" aria-expanded="false">Login</CustomLink></li>
             </ul>
         )
 
         const userLinks = (
             <ul className="navbar-nav">
+                <li>
+                    <CustomLink condition="T" to="/questionPaper" className="nav-link"><Cart /></CustomLink>
+                </li>
                 <li className="nav-item dropdown">
                     <CustomLink condition="T" to="#" className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Questions

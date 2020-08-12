@@ -1,21 +1,16 @@
-import shortid from "shortid";
 import findIndex from "lodash/findIndex";
 
-import { ADD_FLASH_MESSAGE, DELETE_FLASH_MESSAGE } from "../actions/types";
+import { ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART } from "../actions/types";
 
 export default (state = [], action = {}) => {
     switch (action.type) {
-        case ADD_FLASH_MESSAGE:
+        case ADD_TO_CART:
             return [
                 ...state,
-                {
-                    id: shortid.generate(),
-                    type: action.message.type,
-                    text: action.message.text
-                }
+                action.id
             ];
-        case DELETE_FLASH_MESSAGE:
-            const index = findIndex(state, { id: action.id });
+        case REMOVE_FROM_CART:
+            const index = state.indexOf(action.id);
             if (index >= 0) {
                 return [
                     ...state.slice(0, index),
@@ -23,6 +18,8 @@ export default (state = [], action = {}) => {
                 ]
             }
             return state;
+        case CLEAR_CART:
+            return [];
         default: return state;
     }
 }

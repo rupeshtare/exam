@@ -6,8 +6,9 @@ import difference from "lodash/difference";
 import Question from "../models/question";
 import AnswerSheet from "../models/answerSheet";
 import QuestionPaper from "../models/questionPaper";
-import validateInput from "../shared/validations/question";
+import validateQuestionPaperInput from "../shared/validations/questionPaper";
 import { map } from "lodash";
+import question from "../models/question";
 
 let router = express.Router();
 
@@ -73,7 +74,7 @@ router.get("/questionPapers", (req, res) => {
 
     QuestionPaper
         .query({
-            select: ["id"]
+            select: ["id", "name", "subject"]
         })
         .fetchAll()
         .then(
@@ -109,31 +110,32 @@ router.get("/questionPaper/:identifier", (req, res) => {
         }).catch((error) => {
             res.json({ error });
         })
-})
+});
 
 // Create Question Paper
 router.post("/questionPaper", (req, res) => {
-    const user = req.currentUser.id;
+    const { errors, isValid } = validateQuestionPaperInput(req.body);
 
-    // get question ids of given question paper
-    Question
-        .query('orderBy', 'id', 'desc')
-        .query('limit', '5')
-        .fetchAll()
-        .then(questions => {
-            questions = JSON.stringify(map(questions.toJSON(), o => o.id));
+    if (isValid) {
+        const user = req.currentUser.id;
+        let { name, subject, questions } = req.body;
+        questions = JSON.stringify(questions);
 
-            QuestionPaper
-                .forge({
-                    questions, user
-                }, { hasTimestamps: true })
-                .save();
+        // get question ids of given question paper
+        QuestionPaper.forge({
+            name, subject, questions, user
+        }, { hasTimestamps: true }).save()
+            .then(
+                paper => res.json({ success: true })
+            )
+            .catch(
+                err => { console.log(err); res.status(500).json({ error: err }) }
+            );
 
-            res.json({ questions });
-        }).catch((error) => {
-            res.json({ error });
-        })
-})
+    } else {
+        res.status(400).json(errors);
+    }
+});
 
 
 // Get Answer Sheet of a given Paper
@@ -160,6 +162,6 @@ router.get("/answerSheet/:identifier", (req, res) => {
             console.log(error);
             res.json({ error });
         })
-})
+});
 
 export default router;

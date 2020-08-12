@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withRouter, Redirect } from "react-router-dom";
-import { differenceBy, map } from "lodash";
+import { differenceBy, map, find } from "lodash";
 
 
 class ExamForm extends React.Component {
@@ -27,9 +27,12 @@ class ExamForm extends React.Component {
 
             this.props.getQuestionPapers().then(res => {
                 const { questionPapers } = res.data;
+                var modifiedResult = map(this.state.results, o => { return {...o, ...find(questionPapers, ["id", o.question_paper])}});
+
                 this.setState({
-                    questionPapers: res.data.questionPapers,
-                    unSolvedPapers: differenceBy(map(questionPapers, o => { return { question_paper: o.id } }), this.state.results, "question_paper")
+                    questionPapers,
+                    unSolvedPapers: differenceBy(map(questionPapers, o => { return { question_paper: o.id, ...o } }), this.state.results, "question_paper"),
+                    results: modifiedResult
                 });
             });
         });
@@ -53,8 +56,8 @@ class ExamForm extends React.Component {
                             <div className="col col-lg-3" key={index}>
                                 <div className="card">
                                     <div className="card-body">
-                                        <h5 className="card-title">Question Paper # {result.question_paper}</h5>
-                                        <p className="card-text">Chemistry</p>
+                                        <h5 className="card-title">{result.name}</h5>
+                                        <p className="card-text">{result.subject}</p>
                                         <Link to={`/exam/${result.question_paper}`}>Marks: {result.total_marks}</Link>
                                     </div>
                                 </div>
@@ -66,8 +69,8 @@ class ExamForm extends React.Component {
                             <div className="col col-lg-3" key={index}>
                                 <div className="card">
                                     <div className="card-body">
-                                        <h5 className="card-title">Question Paper # {paper.question_paper}</h5>
-                                        <p className="card-text">Chemistry</p>
+                                        <h5 className="card-title">{paper.name}</h5>
+                                        <p className="card-text">{paper.subject}</p>
                                         <Link to={`/exam/${paper.question_paper}`}>Start</Link>
                                     </div>
                                 </div>

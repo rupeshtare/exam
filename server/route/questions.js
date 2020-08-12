@@ -34,7 +34,7 @@ router.post("/", (req, res) => {
 router.get("/", (req, res) => {
     let { page, pageSize } = req.query;
     page = page !== undefined ? page : 1;
-    pageSize = pageSize !== undefined ? pageSize : 10;
+    pageSize = pageSize !== undefined ? pageSize : 3;
     Question.fetchPage({ pageSize, page })
         .then(
             questions => res.json({ questions: questions, pagination: questions.pagination })

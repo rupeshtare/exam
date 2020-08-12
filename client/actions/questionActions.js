@@ -11,3 +11,9 @@ export function getQuestions(params) {
         return axios.get("/api/questions", { params });
     }
 }
+
+export function setQuestionPaper(params) {
+    return dispatch => {
+        return axios.post("/api/exams/questionPaper", { ...params });
+    }
+}

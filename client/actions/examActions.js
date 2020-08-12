@@ -24,12 +24,6 @@ export function getQuestionPaper(paper, params) {
     }
 }
 
-export function setQuestionPaper(params) {
-    return dispatch => {
-        return axios.post("/api/exams/questionPaper", { params });
-    }
-}
-
 export function getAnswerSheet(paper, params) {
     return dispatch => {
         return axios.get(`/api/exams/answerSheet/${paper}`, { params });
