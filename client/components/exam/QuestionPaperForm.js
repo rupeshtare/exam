@@ -15,7 +15,7 @@ class QuestionPaperForm extends React.Component {
             isLoading: false,
             invalid: false,
             answers: {},
-            paper: this.props.match.params.paper,
+            paper: this.props.match.params.id,
             results: {}
         }
 
@@ -45,6 +45,7 @@ class QuestionPaperForm extends React.Component {
     onChange(e) {
         let { name, value, type, checked } = e.target;
         let field = this.state.answers[name];
+        
         if (checked) {
             if (type === "checkbox") {
                 field === undefined ? this.state.answers[name] = [value] : field.push(value)
@@ -107,7 +108,7 @@ class QuestionPaperForm extends React.Component {
                     )
                 }
                 <div className={classnames("form-group", { "invisible": !isEmpty(this.state.answers) })}>
-                    <button disabled={isLoading || invalid} className="btn btn-outline-primary">Submit</button>
+                    <button disabled={isLoading || invalid} className="btn btn-primary">Submit</button>
                 </div>
             </form>
         )

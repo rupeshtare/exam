@@ -130,7 +130,7 @@ class SignupFrom extends React.Component {
                     { errors.timezone && <div className="invalid-feedback">{errors.timezone}</div> }
                 </div>
                 <div className="form-group">
-                    <button disabled={this.state.isLoading || this.state.invalid}  className="btn btn-primary btn-lg">Sign Up</button>
+                    <button disabled={this.state.isLoading || this.state.invalid}  className="btn btn-primary">Sign Up</button>
                 </div>
             </form>
         )

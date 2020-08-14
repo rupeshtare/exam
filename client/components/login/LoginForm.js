@@ -68,7 +68,7 @@ class LoginForm extends React.Component {
                     onChange={this.onChange}
                     type="password"
                 />
-                <div className="form-group"><button className="btn btn-primary btn-lg" disabled={isLoading}>Login</button></div>
+                <div className="form-group"><button className="btn btn-primary" disabled={isLoading}>Login</button></div>
             </form>
         );
     }

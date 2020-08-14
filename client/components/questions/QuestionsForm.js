@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import classnames from "classnames";
 import { withRouter } from "react-router-dom";
 
-import SelectFieldGroup from "../common/SelectFieldGroup";
 import TextareaFieldGroup from "../common/TextareaFieldGroup";
 import validateInput from "../../../server/shared/validations/question";
+import CheckboxOrRadioButtonFieldGroup from "../common/CheckboxOrRadioButtonFieldGroup";
+
 
 class QuestionsForm extends React.Component {
 
@@ -21,15 +21,30 @@ class QuestionsForm extends React.Component {
             difficulty_level: "",
             errors: {},
             isLoading: false,
+            id: this.props.match.params.id || null,
         }
 
         this.onChange = this.onChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+        this.save = this.save.bind(this);
+        this.update = this.update.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.state.id !== null) {
+            this.getQuestion();
+        }
+    }
+
+    getQuestion() {
+        this.props.getQuestion(this.state.id).then(
+            res => { this.setState(res.data) },
+            err => { this.props.addFlashMessage({ type: "error", text: "No record found." }) }
+        );
     }
 
     onChange(e) {
-        const name = e.target.name;
-        const value = e.target.value;
+        const {name, value} = e.target;
+
         if (name === "correct_answer") {
             this.state.correct_answer.indexOf(value) === -1
                 ? this.state.correct_answer.push(value)
@@ -51,19 +66,33 @@ class QuestionsForm extends React.Component {
         return isValid;
     }
 
-    onSubmit(e) {
+    save(e) {
         e.preventDefault();
         if (this.isValid()) {
             this.setState({ errors: {}, isLoading: true });
-            this.props.questionSaveRequest(this.state).then(
-                ({ response }) => {
-                    this.props.addFlashMessage({
-                        type: "success",
-                        text: "Your question saved successfully."
-                    })
+
+            this.props.saveQuestion(this.state).then(
+                ({ res }) => {
+                    this.props.addFlashMessage({ type: "success", text: "Your question saved successfully." })
                     this.props.history.push("/");
                 },
-                ({ response }) => this.setState({ errors: response.data, isLoading: false })
+                ({ err }) => this.setState({ errors: err.data, isLoading: false })
+            );
+        }
+    }
+
+    update(e) {
+        e.preventDefault();
+        if (this.isValid()) {
+            this.setState({ errors: {}, isLoading: true });
+
+            this.props.updateQuestion(this.state).then(
+                ({ res }) => {
+                    this.props.clearCart();
+                    this.props.addFlashMessage({ type: "success", text: "Your question updated successfully." })
+                    this.props.history.push("/questions/list");
+                },
+                ({ err }) => this.setState({ errors: err.data, isLoading: false })
             );
         }
     }
@@ -71,8 +100,8 @@ class QuestionsForm extends React.Component {
     render() {
         const { question, option1, option2, option3, option4, correct_answer, difficulty_level, errors, isLoading } = this.state;
         return (
-            <form onSubmit={this.onSubmit}>
-                <h5>New Question</h5>
+            <form onSubmit={this.state.id ? this.update : this.save}>
+                <h5>{this.state.id ? "Update Question" : "New Question"}</h5>
                 <TextareaFieldGroup
                     field="question"
                     label="Question"
@@ -108,26 +137,40 @@ class QuestionsForm extends React.Component {
                     error={errors.option4}
                     onChange={this.onChange}
                 />
-                <SelectFieldGroup
-                    field="correct_answer"
-                    label="Correct Answer"
-                    value={correct_answer}
-                    options={[[1, 1], [2, 2], [3, 3], [4, 4]]}
+                <CheckboxOrRadioButtonFieldGroup
+                    key={'a' + correct_answer.length}
+                    disabled={false}
+                    examQuestion={{
+                        id: "correct_answer",
+                        question: "Correct Answer",
+                        option1: "Option 1",
+                        option2: "Option 2",
+                        option3: "Option 3",
+                        option4: "Option 4",
+                        type: "M"
+                    }}
                     error={errors.correct_answer}
-                    onChange={this.onChange}
-                    multiple={true}
-                />
-                <SelectFieldGroup
-                    field="difficulty_level"
-                    label="Difficluty Level"
-                    value={difficulty_level}
-                    options={[["E", "Easy"], ["M", "Medium"], ["D", "Difficult"]]}
+                    answer={correct_answer}
+                    onChange={this.onChange}>
+                </CheckboxOrRadioButtonFieldGroup>
+                <CheckboxOrRadioButtonFieldGroup
+                    key={'d' + correct_answer.length}
+                    disabled={false}
+                    options={["E", "M", "D"]}
+                    examQuestion={{
+                        id: "difficulty_level",
+                        question: "Difficluty Level",
+                        option1: "Easy",
+                        option2: "Medium",
+                        option3: "Difficult",
+                        type: "S"
+                    }}
                     error={errors.difficulty_level}
-                    onChange={this.onChange}
-                    multiple={false}
-                />
+                    answer={[difficulty_level]}
+                    onChange={this.onChange}>
+                </CheckboxOrRadioButtonFieldGroup>
                 <div className="form-group">
-                    <button disabled={this.state.isLoading || this.state.invalid} className="btn btn-outline-primary">Save</button>
+                    <button disabled={this.state.isLoading || this.state.invalid} className="btn btn-primary">{this.state.id ? "Update" : "Save"}</button>
                 </div>
             </form>
         )
@@ -135,8 +178,11 @@ class QuestionsForm extends React.Component {
 }
 
 QuestionsForm.propTypes = {
-    questionSaveRequest: PropTypes.func.isRequired,
+    saveQuestion: PropTypes.func.isRequired,
     addFlashMessage: PropTypes.func.isRequired,
+    getQuestion: PropTypes.func.isRequired,
+    updateQuestion: PropTypes.func.isRequired,
+    clearCart: PropTypes.func.isRequired,
 }
 
 export default withRouter(QuestionsForm);

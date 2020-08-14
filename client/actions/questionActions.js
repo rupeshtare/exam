@@ -1,19 +1,37 @@
 import axios from "axios";
 
-export function questionSaveRequest(questionData) {
-    return dispatch => {
-        return axios.post("/api/questions", questionData);
-    }
-}
-
 export function getQuestions(params) {
     return dispatch => {
         return axios.get("/api/questions", { params });
     }
 }
 
+export function getQuestion(question, params) {
+    return dispatch => {
+        return axios.get(`/api/questions/${question}`, params);
+    }
+}
+
+export function saveQuestion(questionData) {
+    return dispatch => {
+        return axios.post("/api/questions", questionData);
+    }
+}
+
+export function updateQuestion(params) {
+    return dispatch => {
+        return axios.put(`/api/questions`, params);
+    }
+}
+
+export function deleteQuestion(params) {
+    return dispatch => {
+        return axios.delete("/api/questions", params);
+    }
+}
+
 export function setQuestionPaper(params) {
     return dispatch => {
-        return axios.post("/api/exams/questionPaper", { ...params });
+        return axios.post("/api/exams/questionPaper", params);
     }
 }

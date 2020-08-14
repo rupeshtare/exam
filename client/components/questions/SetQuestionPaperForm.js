@@ -76,7 +76,7 @@ class SetQuestionPaperForm extends React.Component {
                     error={errors.subject}
                     onChange={this.onChange}
                 />
-                <div className="form-group"><button className="btn btn-outline-primary" disabled={isLoading}>Save</button></div>
+                <div className="form-group"><button className="btn btn-primary" disabled={isLoading}>Save</button></div>
             </form>
         )
     }

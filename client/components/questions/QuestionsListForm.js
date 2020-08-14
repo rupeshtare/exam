@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import classnames from "classnames";
 import { withRouter } from "react-router-dom";
 
 import Table from "../common/Table";
@@ -12,12 +13,17 @@ class QuestionsListForm extends React.Component {
             questions: [],
             pagination: {},
             isLoading: false,
-            tableColumns: ["question",  "difficulty_level"] // "option1", "option2", "option3", "option4", "correct_answer"
+            tableColumns: ["question", "difficulty_level"] // "option1", "option2", "option3", "option4", "correct_answer"
         }
 
         this.previousData = this.previousData.bind(this);
         this.nextData = this.nextData.bind(this);
         this.selectedRow = this.selectedRow.bind(this);
+        this.editQuestion = this.editQuestion.bind(this);
+        this.deleteQuestion = this.deleteQuestion.bind(this);
+    }
+
+    componentDidMount() {
         this.getQuestions();
     }
 
@@ -28,6 +34,17 @@ class QuestionsListForm extends React.Component {
         });
     }
 
+    editQuestion(e) {
+        e.preventDefault();
+        this.props.history.push(`/questions/edit/${this.props.selectedItems[0]}`);
+    }
+
+    deleteQuestion(e) {
+        e.preventDefault();
+        this.props.deleteQuestion().then(
+            res => { window.location.reload(false); }
+        )
+    }
 
     previousData(e) {
         e.preventDefault();
@@ -48,19 +65,25 @@ class QuestionsListForm extends React.Component {
     }
 
     selectedRow(e) {
-        const id = e.target.value;
-        const checked = e.target.checked;
+        const { value, checked } = e.target;
         if (checked === true) {
-            this.props.addToCart(id);
+            this.props.addToCart(value);
         } else if (checked === false) {
-            this.props.removeFromCart(id);
+            this.props.removeFromCart(value);
         }
     }
 
     render() {
+        const { selectedItems } = this.props;
         return (
             <form>
                 <h5>Questions</h5>
+                <nav aria-label="Page navigation example">
+                    <ul className="pagination justify-content-end">
+                        <li className="page-item"><a href="#" onClick={this.editQuestion} className={classnames("nav-link", { "disabled": selectedItems.length !== 1 })}>Edit</a></li>
+                        <li className="page-item"><a href="#" onClick={this.deleteQuestion} className={classnames("nav-link", { "disabled": selectedItems.length === 0 })}>Delete</a></li>
+                    </ul>
+                </nav>
                 <Table
                     tableClass="table table-sm"
                     tableHeaderClass="table-primary"
@@ -71,7 +94,7 @@ class QuestionsListForm extends React.Component {
                     nextData={this.nextData}
                     selectable={true}
                     selecteCallback={this.selectedRow}
-                    selectedItems={this.props.selectedItems}
+                    selectedItems={selectedItems}
                 ></Table>
             </form>
         )
@@ -83,6 +106,7 @@ QuestionsListForm.propTypes = {
     addToCart: PropTypes.func.isRequired,
     removeFromCart: PropTypes.func.isRequired,
     selectedItems: PropTypes.array.isRequired,
+    deleteQuestion: PropTypes.func.isRequired,
 }
 
 export default withRouter(QuestionsListForm);

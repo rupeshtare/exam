@@ -13,51 +13,31 @@ class CheckboxOrRadioButtonFieldGroup extends React.Component {
     }
 
     render() {
-        const { examQuestion, questionNo, onChange, result, answer } = this.props
-        const { id, question, option1, option2, option3, option4, type } = examQuestion;
+        const { examQuestion, questionNo, onChange, result, answer, options, disabled } = this.props
+        const { id, question, type } = examQuestion;
         const fieldType = type == "S" ? "radio" : "checkbox"
+
+        const optionTags = options.map((column, index) =>
+            <CheckboxOrRadioButtonField
+                key={index}
+                field={id}
+                value={column}
+                label={examQuestion[`option${index+1}`]}
+                type={fieldType}
+                checked={answer.includes(column.toString())}
+                disabled={disabled}
+                onChange={onChange}>
+            </CheckboxOrRadioButtonField>
+        );
 
         return (
             <div className="card">
                 <div className="card-body">
-                    <div className={classnames("card-title", { "text-danger": result === 0, "text-success": result === 1 })}><b>Question {questionNo} - {question}</b></div>
+                    <div className={classnames("card-title", { "text-danger": result === 0, "text-success": result === 1 })}>
+                        {questionNo !== null ? <b>Question {questionNo} - {question}</b> : question}
+                    </div>
                     <div className="text-muted">
-                        <CheckboxOrRadioButtonField
-                            field={id}
-                            value={1}
-                            label={option1}
-                            type={fieldType}
-                            checked={answer.includes("1")}
-                            disabled={!isEmpty(answer)}
-                            onChange={onChange}>
-                        </CheckboxOrRadioButtonField>
-                        <CheckboxOrRadioButtonField
-                            field={id}
-                            value={2}
-                            label={option2}
-                            type={fieldType}
-                            checked={answer.includes("2")}
-                            disabled={!isEmpty(answer)}
-                            onChange={onChange}>
-                        </CheckboxOrRadioButtonField>
-                        <CheckboxOrRadioButtonField
-                            field={id}
-                            value={3}
-                            label={option3}
-                            type={fieldType}
-                            checked={answer.includes("3")}
-                            disabled={!isEmpty(answer)}
-                            onChange={onChange}>
-                        </CheckboxOrRadioButtonField>
-                        <CheckboxOrRadioButtonField
-                            field={id}
-                            value={4}
-                            label={option4}
-                            type={fieldType}
-                            checked={answer.includes("4")}
-                            disabled={!isEmpty(answer)}
-                            onChange={onChange}>
-                        </CheckboxOrRadioButtonField>
+                        {optionTags}
                     </div>
                 </div>
             </div>
@@ -67,14 +47,19 @@ class CheckboxOrRadioButtonFieldGroup extends React.Component {
 
 CheckboxOrRadioButtonFieldGroup.propTypes = {
     examQuestion: PropTypes.object.isRequired,
-    questionNo: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
+    questionNo: PropTypes.number,
     result: PropTypes.number,
     answer: PropTypes.array,
+    options: PropTypes.array,
+    disabled: PropTypes.bool,
 }
 
 CheckboxOrRadioButtonFieldGroup.defaultProps = {
-    answer: []
+    questionNo: null,
+    answer: [],
+    options: [1, 2, 3, 4],
+    disabled: true,
 }
 
 export default withRouter(CheckboxOrRadioButtonFieldGroup);

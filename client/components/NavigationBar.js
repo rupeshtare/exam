@@ -34,7 +34,7 @@ class NavigationBar extends React.Component {
                     </CustomLink>
                     <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                         <CustomLink condition="T" to="/questions" className="dropdown-item">Create</CustomLink>
-                        <CustomLink condition="T" to="/list" className="dropdown-item">List</CustomLink>
+                        <CustomLink condition="T" to="/questions/list" className="dropdown-item">List</CustomLink>
                     </div>
                 </li>
                 <li>
