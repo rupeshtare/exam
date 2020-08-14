@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { withRouter } from "react-router-dom";
+import CustomLink from "../../utils/customLink";
 
 import Table from "../common/Table";
 
@@ -41,8 +42,13 @@ class QuestionsListForm extends React.Component {
 
     deleteQuestion(e) {
         e.preventDefault();
-        this.props.deleteQuestion().then(
-            res => { window.location.reload(false); }
+        this.props.deleteQuestion({ questions: this.props.selectedItems }).then(
+            res => {
+                this.props.addFlashMessage({ type: "success", text: "Question(s) deleted sucessfully." });
+                this.props.clearCart();
+                this.getQuestions();
+            },
+            err => { this.props.addFlashMessage({ type: "error", text: "Error while deleting question(s)." }) }
         )
     }
 
@@ -80,8 +86,9 @@ class QuestionsListForm extends React.Component {
                 <h5>Questions</h5>
                 <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-end">
-                        <li className="page-item"><a href="#" onClick={this.editQuestion} className={classnames("nav-link", { "disabled": selectedItems.length !== 1 })}>Edit</a></li>
-                        <li className="page-item"><a href="#" onClick={this.deleteQuestion} className={classnames("nav-link", { "disabled": selectedItems.length === 0 })}>Delete</a></li>
+                        <li className="page-item"><CustomLink condition="T" to="/questions/new" className="nav-link">Create</CustomLink></li>
+                        <li className="page-item"><CustomLink condition="T" to="#" onClick={this.editQuestion} className={classnames("nav-link", { "disabled": selectedItems.length !== 1 })}>Edit</CustomLink></li>
+                        <li className="page-item"><CustomLink condition="T" to="#" onClick={this.deleteQuestion} className={classnames("nav-link", { "disabled": selectedItems.length === 0 })}>Delete</CustomLink></li>
                     </ul>
                 </nav>
                 <Table
@@ -105,6 +112,7 @@ QuestionsListForm.propTypes = {
     getQuestions: PropTypes.func.isRequired,
     addToCart: PropTypes.func.isRequired,
     removeFromCart: PropTypes.func.isRequired,
+    clearCart: PropTypes.func.isRequired,
     selectedItems: PropTypes.array.isRequired,
     deleteQuestion: PropTypes.func.isRequired,
 }

@@ -26,7 +26,7 @@ export function updateQuestion(params) {
 
 export function deleteQuestion(params) {
     return dispatch => {
-        return axios.delete("/api/questions", params);
+        return axios.delete("/api/questions", { data: params });
     }
 }
 

@@ -43,7 +43,8 @@ router.get("/", (req, res) => {
     let { page, pageSize } = req.query;
     page = page !== undefined ? page : 1;
     pageSize = pageSize !== undefined ? pageSize : 10;
-    Question.fetchPage({ pageSize, page })
+    Question.where({ deleted: false })
+        .fetchPage({ pageSize, page })
         .then(
             questions => res.json({ questions: questions, pagination: questions.pagination })
         )
@@ -83,7 +84,7 @@ router.put("/", (req, res) => {
         let { id, question, option1, option2, option3, option4, correct_answer, type, difficulty_level, updated_by } = getQuestionData(req);
         const created_by = req.currentUser.id;
 
-        Question.forge({ id }, { hasTimestamps: true })
+        Question.forge({ id })
             .save({ question, option1, option2, option3, option4, correct_answer, type, difficulty_level, created_by, updated_by })
             .then(
                 question => res.json({ success: true })
@@ -95,6 +96,22 @@ router.put("/", (req, res) => {
     } else {
         res.status(400).json(errors);
     }
+});
+
+// Delete Question of a given id
+router.delete("/", (req, res) => {
+
+    let { questions } = req.body;
+    const updated_by = req.currentUser.id;
+
+    Question.where("id", "in", questions)
+        .save({ deleted: true }, { method: 'update', patch: true })
+        .then(
+            question => res.json({ success: true })
+        )
+        .catch(
+            err => res.status(500).json({ error: err })
+        );
 });
 
 export default router;

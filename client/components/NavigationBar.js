@@ -28,14 +28,8 @@ class NavigationBar extends React.Component {
                 <li>
                     <CustomLink condition="T" to="/questionPaper" className="nav-link"><Cart /></CustomLink>
                 </li>
-                <li className="nav-item dropdown">
-                    <CustomLink condition="T" to="#" className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Questions
-                    </CustomLink>
-                    <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <CustomLink condition="T" to="/questions" className="dropdown-item">Create</CustomLink>
-                        <CustomLink condition="T" to="/questions/list" className="dropdown-item">List</CustomLink>
-                    </div>
+                <li>
+                    <CustomLink condition="T" to="/questions" className="nav-link">Questions</CustomLink>
                 </li>
                 <li>
                     <CustomLink to="#" className="nav-link" onClick={this.logout.bind(this)}>Logout</CustomLink>
