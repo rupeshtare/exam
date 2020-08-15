@@ -18,7 +18,6 @@ class ExamForm extends React.Component {
         }
 
         this.getExamRsults();
-        // this.getQuestionPapers();
     }
 
     getExamRsults() {
@@ -27,7 +26,7 @@ class ExamForm extends React.Component {
 
             this.props.getQuestionPapers().then(res => {
                 const { questionPapers } = res.data;
-                var modifiedResult = map(this.state.results, o => { return {...o, ...find(questionPapers, ["id", o.question_paper])}});
+                var modifiedResult = map(this.state.results, o => { return { ...o, ...find(questionPapers, ["id", o.question_paper]) } });
 
                 this.setState({
                     questionPapers,
@@ -48,13 +47,13 @@ class ExamForm extends React.Component {
         const { unSolvedPapers, results, isLoading, invalid } = this.state;
 
         return (
-            <form onSubmit={this.onSubmit}>
+            <form>
                 <h5>Exam</h5>
                 <div className="row">
                     {
                         results.map((result, index) =>
                             <div className="col col-lg-3" key={index}>
-                                <div className="card">
+                                <div className="card paperCard">
                                     <div className="card-body">
                                         <h5 className="card-title">{result.name}</h5>
                                         <p className="card-text">{result.subject}</p>
@@ -67,11 +66,13 @@ class ExamForm extends React.Component {
                     {
                         unSolvedPapers.map((paper, index) =>
                             <div className="col col-lg-3" key={index}>
-                                <div className="card">
+                                <div className="card paperCard">
                                     <div className="card-body">
                                         <h5 className="card-title">{paper.name}</h5>
                                         <p className="card-text">{paper.subject}</p>
-                                        <Link to={`/exam/${paper.question_paper}`}>Start</Link>
+                                        <div className="pointer">
+                                            <Link to={`/exam/${paper.question_paper}`}>Start</Link>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -28,13 +28,15 @@ const Table = ({ tableClass, tableHeaderClass, tableData, tableColumns, paginati
                     {tableBody}
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example">
-                <ul className="pagination justify-content-end">
-                    <li className={classnames("page-item", { "disabled": page === 1 })}><a className="page-link" href="#" onClick={previousData}>Previous</a></li>
-                    <li className="page-item disabled"><a className="page-link">Page {page} of {pageCount}</a></li>
-                    <li className={classnames("page-item", { "disabled": page === pageCount })}><a className="page-link" href="#" onClick={nextData}>Next</a></li>
-                </ul>
-            </nav>
+            {pageCount ?
+                <nav aria-label="Page navigation example">
+                    <ul className="pagination justify-content-end">
+                        <li className={classnames("page-item", { "disabled": page === 1 })}><a className="page-link" href="#" onClick={previousData}>Previous</a></li>
+                        <li className="page-item disabled"><a className="page-link">Page {page} of {pageCount}</a></li>
+                        <li className={classnames("page-item", { "disabled": page === pageCount })}><a className="page-link" href="#" onClick={nextData}>Next</a></li>
+                    </ul>
+                </nav> :
+                null}
         </div>
     )
 }
@@ -55,6 +57,7 @@ Table.propTypes = {
 Table.defaultProps = {
     tableClass: "table table-sm",
     tableHeaderClass: "thead-dark",
+    pagination: {},
 }
 
 export default Table;

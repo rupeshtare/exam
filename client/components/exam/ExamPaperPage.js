@@ -1,24 +1,24 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import QuestionPaperForm from "./QuestionPaperForm";
+import ExamPaperForm from "./ExamPaperForm";
 import { examSubmitRequest } from "../../actions/examActions";
 import { addFlashMessage } from "../../actions/flashMessages";
 import { getQuestionPaper, getAnswerSheet } from "../../actions/examActions";
 
-class QuestionPaperPage extends React.Component {
+class ExamPaperPage extends React.Component {
     render() {
         const { examSubmitRequest, addFlashMessage, getQuestionPaper, getAnswerSheet } = this.props;
         return (
-            <QuestionPaperForm
+            <ExamPaperForm
                 examSubmitRequest={examSubmitRequest}
                 addFlashMessage={addFlashMessage}
                 getQuestionPaper={getQuestionPaper}
                 getAnswerSheet={getAnswerSheet}
-            ></QuestionPaperForm>
+            ></ExamPaperForm>
         );
     }
 }
 
 
-export default connect(null, { examSubmitRequest, addFlashMessage, getQuestionPaper, getAnswerSheet })(QuestionPaperPage);
+export default connect(null, { examSubmitRequest, addFlashMessage, getQuestionPaper, getAnswerSheet })(ExamPaperPage);

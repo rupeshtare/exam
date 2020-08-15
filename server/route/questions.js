@@ -40,17 +40,35 @@ router.post("/", (req, res) => {
 
 // Get all Questions 
 router.get("/", (req, res) => {
-    let { page, pageSize } = req.query;
-    page = page !== undefined ? page : 1;
-    pageSize = pageSize !== undefined ? pageSize : 10;
-    Question.where({ deleted: false })
-        .fetchPage({ pageSize, page })
-        .then(
-            questions => res.json({ questions: questions, pagination: questions.pagination })
-        )
-        .catch(
-            err => res.status(500).json({ error: err })
-        );
+
+    let { page, pageSize, questions } = req.query;
+
+    if (questions === undefined) {
+        page = page !== undefined ? page : 1;
+        pageSize = pageSize !== undefined ? pageSize : 10;
+
+        Question.where({ deleted: false })
+            .fetchPage({ pageSize, page })
+            .then(
+                questions => res.json({ questions: questions, pagination: questions.pagination })
+            )
+            .catch(
+                err => res.status(500).json({ error: err })
+            );
+
+    } else {
+
+        Question
+            .where("id", "in", questions)
+            .fetchPage({ pageSize, page })
+            .then(
+                questions => res.json({ questions: questions, pagination: questions.pagination })
+            )
+            .catch(
+                err => res.status(500).json({ error: err })
+            );
+
+    }
 });
 
 

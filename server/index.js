@@ -12,6 +12,7 @@ import users from "./route/users";
 import auth from "./route/auth";
 import questions from "./route/questions";
 import exams from "./route/exams";
+import questionPapers from "./route/questionPapers"
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use("/api/users", users);
 app.use("/api/auth", auth);
 app.use("/api/questions", authenticate, questions);
 app.use("/api/exams", authenticate, exams);
+app.use("/api/questionPapers", authenticate, questionPapers);
 
 const compiler = webpack(webpackConfig);
 

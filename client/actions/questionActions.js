@@ -29,9 +29,3 @@ export function deleteQuestion(params) {
         return axios.delete("/api/questions", { data: params });
     }
 }
-
-export function setQuestionPaper(params) {
-    return dispatch => {
-        return axios.post("/api/exams/questionPaper", params);
-    }
-}

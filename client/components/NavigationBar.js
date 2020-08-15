@@ -26,7 +26,10 @@ class NavigationBar extends React.Component {
         const userLinks = (
             <ul className="navbar-nav">
                 <li>
-                    <CustomLink condition="T" to="/questionPaper" className="nav-link"><Cart /></CustomLink>
+                    <CustomLink condition="T" to="/questionPapers/new" className="nav-link"><Cart /></CustomLink>
+                </li>
+                <li>
+                    <CustomLink condition="T" to="/questionPapers" className="nav-link">Question Papers</CustomLink>
                 </li>
                 <li>
                     <CustomLink condition="T" to="/questions" className="nav-link">Questions</CustomLink>

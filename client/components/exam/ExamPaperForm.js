@@ -6,7 +6,8 @@ import { withRouter } from "react-router-dom";
 
 import CheckboxOrRadioButtonFieldGroup from "../common/CheckboxOrRadioButtonFieldGroup";
 
-class QuestionPaperForm extends React.Component {
+
+class ExamPaperForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -103,11 +104,12 @@ class QuestionPaperForm extends React.Component {
                             examQuestion={question}
                             result={results[question.id]}
                             answer={answers[question.id]}
+                            disabled={!isEmpty(answers)}
                             onChange={this.onChange}>
                         </CheckboxOrRadioButtonFieldGroup>
                     )
                 }
-                <div className={classnames("form-group", { "invisible": !isEmpty(this.state.answers) })}>
+                <div className={classnames("form-group", { "invisible": !isEmpty(answers) })}>
                     <button disabled={isLoading || invalid} className="btn btn-primary">Submit</button>
                 </div>
             </form>
@@ -115,11 +117,11 @@ class QuestionPaperForm extends React.Component {
     }
 }
 
-QuestionPaperForm.propTypes = {
+ExamPaperForm.propTypes = {
     examSubmitRequest: PropTypes.func.isRequired,
     addFlashMessage: PropTypes.func.isRequired,
     getQuestionPaper: PropTypes.func.isRequired,
     getAnswerSheet: PropTypes.func.isRequired
 }
 
-export default withRouter(QuestionPaperForm);
+export default withRouter(ExamPaperForm);

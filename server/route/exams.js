@@ -74,7 +74,8 @@ router.get("/questionPapers", (req, res) => {
 
     QuestionPaper
         .query({
-            select: ["id", "name", "subject"]
+            select: ["id", "name", "subject"],
+            where: { locked: false, deleted: false }
         })
         .fetchAll()
         .then(

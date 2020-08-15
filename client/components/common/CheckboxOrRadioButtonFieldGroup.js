@@ -15,16 +15,16 @@ class CheckboxOrRadioButtonFieldGroup extends React.Component {
     render() {
         const { examQuestion, questionNo, onChange, result, answer, options, disabled } = this.props
         const { id, question, type } = examQuestion;
-        const fieldType = type == "S" ? "radio" : "checkbox"
+        const fieldType = type == "S" ? "radio" : "checkbox";
 
         const optionTags = options.map((column, index) =>
             <CheckboxOrRadioButtonField
                 key={index}
                 field={id}
                 value={column}
-                label={examQuestion[`option${index+1}`]}
+                label={examQuestion[`option${index + 1}`]}
                 type={fieldType}
-                checked={answer.includes(column.toString())}
+                checked={answer.includes(column.toString()) || answer.includes(column)}
                 disabled={disabled}
                 onChange={onChange}>
             </CheckboxOrRadioButtonField>

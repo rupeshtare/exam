@@ -8,8 +8,9 @@ import LoginPage from "./components/login/LoginPage";
 import QuestionsPage from "./components/questions/QuestionsPage";
 import QuestionsListPage from "./components/questions/QuestionsListPage";
 import ExamPage from "./components/exam/ExamPage";
-import QuestionPaperPage from "./components/exam/QuestionPaperPage";
-import SetQuestionPaperPage from "./components/questions/SetQuestionPaperPage";
+import ExamPaperPage from "./components/exam/ExamPaperPage";
+import QuestionPapersListPage from "./components/questionPapers/QuestionPapersListPage";
+import QuestionPaperPage from "./components/questionPapers/QuestionPaperPage";
 
 import requireAuth from "./utils/requireAuth";
 
@@ -26,8 +27,10 @@ class Routes extends React.Component {
                     <Route exact path="/questions/new" component={requireAuth(QuestionsPage, "T")}></Route>
                     <Route exact path="/questions/edit/:id" component={requireAuth(QuestionsPage, "T")}></Route>
                     <Route exact path="/exam" component={requireAuth(ExamPage, "S")}></Route>
-                    <Route exact path="/exam/:id" component={requireAuth(QuestionPaperPage, "S")}></Route>
-                    <Route exact path="/questionPaper" component={requireAuth(SetQuestionPaperPage, "T")}></Route>
+                    <Route exact path="/exam/:id" component={requireAuth(ExamPaperPage, "S")}></Route>
+                    <Route exact path="/questionPapers" component={requireAuth(QuestionPapersListPage, "T")}></Route>
+                    <Route exact path="/questionPapers/new" component={requireAuth(QuestionPaperPage, "T")}></Route>
+                    <Route exact path="/questionPapers/edit/:id" component={requireAuth(QuestionPaperPage, "T")}></Route>
                 </BrowserRouter>
             </div>
         );
