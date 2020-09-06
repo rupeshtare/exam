@@ -57,7 +57,7 @@ class ExamForm extends React.Component {
                                     <div className="card-body">
                                         <h5 className="card-title">{result.name}</h5>
                                         <p className="card-text">{result.subject}</p>
-                                        <Link to={`/exam/${result.question_paper}`}>Marks: {result.total_marks}</Link>
+                                        <Link to={`/exam/${result.question_paper}`}>Marks: {result.hasOwnProperty('correct') ? result.correct: 0}</Link>
                                     </div>
                                 </div>
                             </div>

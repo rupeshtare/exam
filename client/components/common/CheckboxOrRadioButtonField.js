@@ -14,7 +14,7 @@ const CheckboxOrRadioButtonField = ({ field, type, value, label, error, onChange
                 onChange={onChange}
                 className={classnames("form-check-input", { "is-invalid": error })}>
             </input>
-            <label className="form-check-label">{label}</label>
+            <label className="form-check-label" dangerouslySetInnerHTML={{__html: label}}></label>
             {error && <div className="invalid-feedback">{error}</div>}
         </div>
     )

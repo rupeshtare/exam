@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
+import EditorField from "../common/EditorField";
 import TextareaFieldGroup from "../common/TextareaFieldGroup";
 import validateInput from "../../../server/shared/validations/question";
 import CheckboxOrRadioButtonFieldGroup from "../common/CheckboxOrRadioButtonFieldGroup";
@@ -24,6 +25,7 @@ class QuestionsForm extends React.Component {
             id: this.props.match.params.id || null,
         }
 
+        this.onInput = this.onInput.bind(this);
         this.onChange = this.onChange.bind(this);
         this.save = this.save.bind(this);
         this.update = this.update.bind(this);
@@ -56,6 +58,10 @@ class QuestionsForm extends React.Component {
         }
     }
 
+    onInput(e) {
+        this.setState({ [e.target.getAttribute("name")]: e.target.innerHTML });
+    }
+
     isValid() {
         const { errors, isValid } = validateInput(this.state);
 
@@ -70,7 +76,6 @@ class QuestionsForm extends React.Component {
         e.preventDefault();
         if (this.isValid()) {
             this.setState({ errors: {}, isLoading: true });
-
             this.props.saveQuestion(this.state).then(
                 ({ res }) => {
                     this.props.addFlashMessage({ type: "success", text: "Your question saved successfully." })
@@ -102,40 +107,40 @@ class QuestionsForm extends React.Component {
         return (
             <form onSubmit={this.state.id ? this.update : this.save}>
                 <h5>{this.state.id ? "Update Question" : "New Question"}</h5>
-                <TextareaFieldGroup
+                <EditorField
                     field="question"
                     label="Question"
                     value={question}
                     error={errors.question}
-                    onChange={this.onChange}
+                    onInput={this.onInput}
                 />
-                <TextareaFieldGroup
+                <EditorField
                     field="option1"
                     label="Option 1"
                     value={option1}
                     error={errors.option1}
-                    onChange={this.onChange}
+                    onInput={this.onInput}
                 />
-                <TextareaFieldGroup
+                <EditorField
                     field="option2"
                     label="Option 2"
                     value={option2}
                     error={errors.option2}
-                    onChange={this.onChange}
+                    onInput={this.onInput}
                 />
-                <TextareaFieldGroup
+                <EditorField
                     field="option3"
                     label="Option 3"
                     value={option3}
                     error={errors.option3}
-                    onChange={this.onChange}
+                    onInput={this.onInput}
                 />
-                <TextareaFieldGroup
+                <EditorField
                     field="option4"
                     label="Option 4"
                     value={option4}
                     error={errors.option4}
-                    onChange={this.onChange}
+                    onInput={this.onInput}
                 />
                 <CheckboxOrRadioButtonFieldGroup
                     key={'a' + correct_answer.length}

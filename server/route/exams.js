@@ -7,8 +7,6 @@ import Question from "../models/question";
 import AnswerSheet from "../models/answerSheet";
 import QuestionPaper from "../models/questionPaper";
 import validateQuestionPaperInput from "../shared/validations/questionPaper";
-import { map } from "lodash";
-import question from "../models/question";
 
 let router = express.Router();
 
@@ -27,9 +25,6 @@ router.post("/", (req, res) => {
                         let correct_answer = JSON.parse(val.correct_answer);
                         let given_answer = answers[val.id];
                         let result = correct_answer.length === given_answer.length && difference(correct_answer, given_answer).length === 0;
-                        console.log({
-                            question_paper: paper, question: val.id, answer: JSON.stringify(given_answer), user, result
-                        });
                         AnswerSheet.forge({
                             question_paper: paper, question: val.id, answer: JSON.stringify(given_answer), user, result
                         }, { hasTimestamps: true }).save()
@@ -39,7 +34,7 @@ router.post("/", (req, res) => {
                 }
             )
             .catch(
-                err => { console.log(err); res.status(500).json({ error: err }) }
+                err => {res.status(500).json({ error: err }) }
             );
 
     } else {
@@ -55,13 +50,36 @@ router.get("/results", (req, res) => {
         .query((qb) => {
             qb.select("question_paper", "user", "result")
             qb.groupBy("question_paper")
+            qb.groupBy("result")
             qb.where("user", user)
-            qb.where("result", 1)
             qb.count("result as total_marks")
         })
         .fetch()
         .then(
-            results => res.json({ results })
+            results => {
+                let output = {}
+                results.toJSON().forEach((result) => {
+                    if(output.hasOwnProperty(result.question_paper)) {
+
+                        if(result.result === 1) {
+                            output[result.question_paper]['correct'] = result.total_marks
+                        } else {
+                            output[result.question_paper]['incorrect'] = result.total_marks
+                        }
+
+                    } else {
+                        const {question_paper, user, total_marks} = result;
+                        output[question_paper] = {question_paper, user};
+
+                        if(result.result === 1) {
+                            output[question_paper]['correct'] = total_marks;
+                        } else {
+                            output[question_paper]['incorrect'] = total_marks;
+                        }
+                    }
+                })
+                res.json({ results: Object.values(output) });
+            }
         )
         .catch(
             error => res.status(500).json({ error })
@@ -130,7 +148,7 @@ router.post("/questionPaper", (req, res) => {
                 paper => res.json({ success: true })
             )
             .catch(
-                err => { console.log(err); res.status(500).json({ error: err }) }
+                err => {res.status(500).json({ error: err }) }
             );
 
     } else {
@@ -160,7 +178,6 @@ router.get("/answerSheet/:identifier", (req, res) => {
 
             res.json({ answers, results });
         }).catch((error) => {
-            console.log(error);
             res.json({ error });
         })
 });

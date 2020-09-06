@@ -34,7 +34,7 @@ class CheckboxOrRadioButtonFieldGroup extends React.Component {
             <div className="card">
                 <div className="card-body">
                     <div className={classnames("card-title", { "text-danger": result === 0, "text-success": result === 1 })}>
-                        {questionNo !== null ? <b>Question {questionNo} - {question}</b> : question}
+                        {questionNo !== null ? <b>Question {questionNo} - <b  dangerouslySetInnerHTML={{__html: question}}></b></b> : question}
                     </div>
                     <div className="text-muted">
                         {optionTags}

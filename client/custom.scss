@@ -84,6 +84,11 @@ form {
 
     a {
         color: $white;
-        padding: 2px 40px;
+        padding: 2px 30px;
     }
+}
+
+.question-editor {
+    overflow: auto;
+    height: 100px;
 }

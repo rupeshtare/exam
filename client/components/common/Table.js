@@ -12,7 +12,7 @@ const Table = ({ tableClass, tableHeaderClass, tableData, tableColumns, paginati
 
     const tableBody = tableData.map((row, index) =>
         <tr key={index}>{selectable ? <td><input type="checkbox" defaultChecked={selectedItems.indexOf(row["id"].toString()) > -1} id={row["id"]} key={row["id"]} value={row["id"]} onClick={selecteCallback}></input></td> : <></>}
-            {tableColumns.map((column, iindex) => <td key={index, iindex}>{row[column]}</td>)}
+            {tableColumns.map((column, iindex) => <td key={index, iindex} dangerouslySetInnerHTML={{__html: row[column]}}></td>)}
         </tr>
     );
 
