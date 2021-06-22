@@ -4,91 +4,108 @@ $primary: #009be1;
 $blue-100: #e6f7fe;
 // #66ff66
 
-$font-family-base: "Century Gothic", "Apple Gothic", AppleGothic, "URW Gothic L", "Avant Garde", Futura, sans-serif;
+$font-family-base: "Century Gothic", "Apple Gothic", AppleGothic, "URW Gothic L",
+  "Avant Garde", Futura, sans-serif;
 
 // Import Bootstrap and its default variables
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 .navbar-light {
-    .navbar-nav {
-        .nav-link {
-            color: $blue-100;
-        }
-        .nav-link:hover {
-            color: $blue-100;
-        }
-
-        .nav-link:focus {
-            color: $blue-100;
-        }
+  .navbar-nav {
+    .nav-link {
+      color: $blue-100;
+    }
+    .nav-link:hover {
+      color: $blue-100;
     }
 
-    .navbar-brand {
-        color: $blue-100;
+    .nav-link:focus {
+      color: $blue-100;
     }
+  }
+
+  .navbar-brand {
+    color: $blue-100;
+  }
 }
 
 .card {
-    margin-bottom: 10px;
-    border-color: $primary;
+  margin-bottom: 10px;
+  border-color: $primary;
 }
 
 .paperCard {
-    background-color: $blue-100;
-    color: $gray-100;
+  background-color: $blue-100;
+  color: $gray-100;
 }
 
 form {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .jumbotron {
-    background-color: $primary;
-    color: $white;
+  background-color: $primary;
+  color: $white;
 }
 
 .pagination {
-    margin: unset;
+  margin: unset;
 }
 
 .pointer {
-    width: 100px;
-    height: 24px;
-    position: relative;
-    background: $gray-100;
+  width: 100px;
+  height: 24px;
+  position: relative;
+  background: $gray-100;
+  color: $white;
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 12px solid $blue-100;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    right: -12px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 12px solid $gray-100;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+  }
+
+  a {
     color: $white;
-
-    &:after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 0;
-        height: 0;
-        border-left: 12px solid $blue-100;
-        border-top: 12px solid transparent;
-        border-bottom: 12px solid transparent;
-    }
-
-    &:before {
-        content: "";
-        position: absolute;
-        right: -12px;
-        bottom: 0;
-        width: 0;
-        height: 0;
-        border-left: 12px solid $gray-100;
-        border-top: 12px solid transparent;
-        border-bottom: 12px solid transparent;
-    }
-
-    a {
-        color: $white;
-        padding: 2px 30px;
-    }
+    padding: 2px 30px;
+  }
 }
 
 .question-editor {
-    overflow: auto;
-    height: 100px;
+  overflow: auto;
+  height: 100px;
+}
+
+button {
+  margin: 00.25rem;
+}
+
+.badge {
+  padding: 00.75rem;
+  font-size: 0.8rem;
+}
+
+.small-badge {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: $success;
 }
